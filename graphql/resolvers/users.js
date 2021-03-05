@@ -11,6 +11,11 @@ module.exports = {
       context,
       info
     ) {
+        //  Validate User Data
+
+        // make sure user doesnt already exist 
+
+        //hash passsword and create an auth token
       password = await bcrypt.hash(password, 12);
 
       const newUser = new User({
