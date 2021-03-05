@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { UserInputError } = require('apollo-server')
+const { validateRegisterInput } = require('../../util/validators')
 
 module.exports = {
   Mutation: {
@@ -11,7 +12,15 @@ module.exports = {
       { registerInput: { username, email, password, confirmPassword } },
     ) {
         //  Validate User Data
-
+        const { valid, errors } = validateRegisterInput(
+          username,
+          email,
+          password,
+          confirmPassword
+        )
+        if(!valid){
+            throw new UserInputError('Errors', { errors })
+        }
         // make sure user doesnt already exist 
         const user = await User.findOne({ username })
         if(user){
