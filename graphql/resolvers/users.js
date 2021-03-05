@@ -1,12 +1,43 @@
-const User = require('../../models/User')
+const User = require("../../models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
 
 module.exports = {
-    Mutation: {
-        register(_, args, context, info){
-            // TODO: Validate User data
-            // TODO: Make sure user doesnt already exist
-            // TODO: hash password and create an auth token
-            
-        }
-    }
-}
+  Mutation: {
+    async register(
+      _,
+      { registerInput: username, email, password, confirmPassword },
+      context,
+      info
+    ) {
+
+      password = await bcrypt.hash(password, 12)
+
+      const newUser = new User({
+        email,
+        username,
+        password,
+        createdAt: new Date().toISOString(),
+      });
+      const res = await newUser.save();
+
+      const token = jwt.sign(
+        {
+          id: res.id,
+          email: res.email,
+          username: res.username,
+        },
+        process.env.SECRET_KEY,
+        { expiresIn: "1hr" }
+      );
+
+      return {
+        ...res._doc,
+        id: res._id,
+        token,
+      };
+    },
+  },
+};
