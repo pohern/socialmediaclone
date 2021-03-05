@@ -3,17 +3,15 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-
 module.exports = {
   Mutation: {
     async register(
       _,
-      { registerInput: username, email, password, confirmPassword },
+      { registerInput: { username, email, password, confirmPassword } },
       context,
       info
     ) {
-
-      password = await bcrypt.hash(password, 12)
+      password = await bcrypt.hash(password, 12);
 
       const newUser = new User({
         email,
