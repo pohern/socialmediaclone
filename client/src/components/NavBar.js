@@ -6,7 +6,7 @@ import { AuthContext } from '../context/auth'
 
 
 function NavBar() {
-  
+  const { user, logout } = useContext(AuthContext)
   const pathname = window.location.pathname
   const path = pathname === '/' ? 'home' : pathname.substr(1)
 
@@ -15,8 +15,23 @@ function NavBar() {
 
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
-  return (
+  const navBar = user ? (
     <Menu pointing secondary size='massive' color='teal'>
+      <Menu.Item
+        name={user.username}
+        as={Link}
+        to='/'
+      />
+      <Menu.Menu position='right'>
+        <Menu.Item
+          name='logout'
+          active={activeItem === "login"}
+          onClick={logout}
+        />
+      </Menu.Menu>
+    </Menu>
+  ) : (
+  <Menu pointing secondary size='massive' color='teal'>
       <Menu.Item
         name='home'
         active={activeItem === "home"}
@@ -40,7 +55,9 @@ function NavBar() {
           to='/register'
         />
       </Menu.Menu>
-    </Menu>
+    </Menu>)
+  return (
+    navBar
   );
 }
 
