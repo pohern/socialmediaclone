@@ -29,6 +29,10 @@ module.exports = {
     async createPost(_, { body }, context) {
       const user = checkAuth(context);
 
+      if (args.body.trim() === "") {
+        throw new Error("Post body must not be empty");
+      }
+
       const newPost = new Post({
         body,
         user: user.id,
@@ -38,10 +42,10 @@ module.exports = {
 
       const post = await newPost.save();
 
-      context.pubsub.publish('NEW_POST',{
-          newPost: post
-      })
-      
+      context.pubsub.publish("NEW_POST", {
+        newPost: post,
+      });
+
       return post;
     },
     async deletePost(_, { postId }, context) {
@@ -59,30 +63,30 @@ module.exports = {
         throw new Error(err);
       }
     },
-    async likePost(_, { postId }, context){
-        const { username } = checkAuth(context)
+    async likePost(_, { postId }, context) {
+      const { username } = checkAuth(context);
 
-        const post = await Post.findById(postId)
+      const post = await Post.findById(postId);
 
-        if(post){
-            if(post.likes.find(like => like.username === username)){
-                //Post already liked, unlike it
-                post.likes = post.likes.filter(like => like.username !== username)
-            } else {
-                //not liked,  like post
-                post.likes.push({
-                    username,
-                    createdAt: new Date().toISOString()
-                })
-            }
-            await post.save();
-            return post
-        } else throw new UserInputError('Post not found')
-    }
+      if (post) {
+        if (post.likes.find((like) => like.username === username)) {
+          //Post already liked, unlike it
+          post.likes = post.likes.filter((like) => like.username !== username);
+        } else {
+          //not liked,  like post
+          post.likes.push({
+            username,
+            createdAt: new Date().toISOString(),
+          });
+        }
+        await post.save();
+        return post;
+      } else throw new UserInputError("Post not found");
+    },
   },
   Subscription: {
-      newPost: {
-          suscribe: (_, __, { pubsub }) => pubsub.asyncIterator('NEW_POST')
-      }
-  }
+    newPost: {
+      suscribe: (_, __, { pubsub }) => pubsub.asyncIterator("NEW_POST"),
+    },
+  },
 };
