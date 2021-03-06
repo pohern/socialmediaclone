@@ -9,10 +9,9 @@ import Postcard from "../components/Postcard";
 
 
 function Home() {
-  const {
-    loading,
-    data: { getPosts: posts },
-  } = useQuery(FETCH_POSTS_QUERY);
+  const { loading, data: { getPosts: posts } = {} } = useQuery(
+    FETCH_POSTS_QUERY
+  );
  
   return (
     <Grid columns={3}>
