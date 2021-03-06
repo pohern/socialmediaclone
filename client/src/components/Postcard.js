@@ -25,7 +25,14 @@ function Postcard({
         <Card.Description>{body}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-          <p>Buttons go here</p>
+        <Button as='div' labelPosition='right'>
+          <Button color='teal'>
+            <Icon name='heart' />
+          </Button>
+          <Label as='a' basic color='teal' pointing='left'>
+            {likeCount}
+          </Label>
+        </Button>
       </Card.Content>
     </Card>
   );
