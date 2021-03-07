@@ -12,11 +12,16 @@ function SinglePost(props) {
   const postId = props.match.params.postId;
   console.log(postId)
   const { user } = useContext(AuthContext);
-  const { data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
+  const {
+    data: { getPost } = {},
+  } = useQuery(FETCH_POST_QUERY, {
     variables: {
       postId,
     },
   });
+
+//    let postMarkup = <p>Loading Post ...</p>;
+//   if (data !== undefined) {postMarkup=...}" so by default it's loading post and if tt's not undefined postMarkyp displays the single post"
 
   let postMarkup;
 
