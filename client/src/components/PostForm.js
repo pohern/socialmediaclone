@@ -28,7 +28,10 @@ export default function PostForm() {
           },
         },
       });
-      values.body = "";
+      values.body = '';
+    },
+    onError(error) {
+      console.log(error);
     },
   });
 
@@ -37,7 +40,7 @@ export default function PostForm() {
   }
 
   return (
-    <div>
+    <>
       <Form onSubmit={onSubmit}>
         <h2>Create A Post</h2>
         <Form.Field>
@@ -46,13 +49,21 @@ export default function PostForm() {
             name='body'
             onChange={onChange}
             value={values.body}
+            error={error ? true : false}
           />
           <Button type='submit' color='teal'>
             Submit
           </Button>
         </Form.Field>
       </Form>
-    </div>
+      {error && (
+        <div className='ui error message' style={{ marginBottom: "20px" }}>
+          <ul className='list'>
+            <li>{error.graphQLErrors[0].message}</li>
+          </ul>
+        </div>
+      )}
+    </>
   );
 }
 
