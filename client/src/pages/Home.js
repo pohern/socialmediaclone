@@ -24,17 +24,17 @@ function Home() {
         <hr />
       </Grid.Row>
       <Grid.Row>
-          { user && (
-              <Grid.Column>
-                  <PostForm />
-              </Grid.Column>
-          )}
+        {user && (
+          <Grid.Column>
+            <PostForm />
+          </Grid.Column>
+        )}
         {loading ? (
           <h1>Loading Posts...</h1>
         ) : (
           posts &&
           posts.map((post) => (
-            <Grid.Column key={post.id}>
+            <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
               <Postcard post={post} />
             </Grid.Column>
           ))
