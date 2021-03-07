@@ -1,24 +1,25 @@
 import React, { useContext } from "react";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
-import { Button, Card, Label, Grid, Icon, Image } from "semantic-ui-react";
+import { Button, Card, Grid, Icon, Image, Label } from "semantic-ui-react";
 import moment from "moment";
 
-import { AuthContext } from '../context/auth'
-import LikeButton from '../components/LikeButton'
+import { AuthContext } from "../context/auth";
+import LikeButton from "../components/LikeButton";
+import DeleteButton from "../components/DeleteButton";
 
 function SinglePost(props) {
   const postId = props.match.params.postId;
-   const { user } = useContext(AuthContext) 
-  const {
-    data: { getPost },
-  } = useQuery(FETCH_POST_QUERY, {
+  console.log(postId)
+  const { user } = useContext(AuthContext);
+  const { data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
     variables: {
       postId,
     },
   });
 
   let postMarkup;
+
   if (!getPost) {
     postMarkup = <p>Loading Post..</p>;
   } else {
@@ -32,6 +33,7 @@ function SinglePost(props) {
       likeCount,
       commentCount,
     } = getPost;
+
     postMarkup = (
       <Grid>
         <Grid.Row>
@@ -51,15 +53,22 @@ function SinglePost(props) {
               </Card.Content>
               <hr />
               <Card.Content>
-                <LikeButton user={user} post={{ id, likeCount, likes}}/>
-                <Button as='div' labelPosition='right' onClick={() => console.log('Comment on post')}>
-                    <Button basic color='blue'>
-                        <Icon name='comments' />
-                    </Button>
-                    <Label basic color='blue' pointing='left'>
-                        {commentCount}
-                    </Label>
+                <LikeButton user={user} post={{ id, likeCount, likes }} />
+                <Button
+                  as='div'
+                  labelPosition='right'
+                  onClick={() => console.log("Comment on post")}
+                >
+                  <Button basic color='blue'>
+                    <Icon name='comments' />
+                  </Button>
+                  <Label basic color='blue' pointing='left'>
+                    {commentCount}
+                  </Label>
                 </Button>
+                {user && user.username === username && (
+                  <DeleteButton postId={id} />
+                )}
               </Card.Content>
             </Card>
           </Grid.Column>
@@ -67,6 +76,7 @@ function SinglePost(props) {
       </Grid>
     );
   }
+  return postMarkup;
 }
 
 const FETCH_POST_QUERY = gql`
