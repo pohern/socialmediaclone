@@ -21,7 +21,7 @@ function DeleteButton({postId}) {
     <Button
       as='div'
       color='red'
-      onClick={() => console.log("Delete Post")}
+      onClick={() => setConfirmOpen(true)}
       floated='right'
     >
       <Icon name='trash' style={{ margin: "0" }} />
