@@ -1,27 +1,22 @@
 import React, { useContext } from "react";
-import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import { Button, Card, Grid, Icon, Image, Label } from "semantic-ui-react";
 import moment from "moment";
 
+import { FETCH_POST_QUERY } from '../util/graphql'
 import { AuthContext } from "../context/auth";
 import LikeButton from "../components/LikeButton";
 import DeleteButton from "../components/DeleteButton";
 
 function SinglePost(props) {
   const postId = props.match.params.postId;
-  console.log(postId)
+  console.log(postId);
   const { user } = useContext(AuthContext);
-  const {
-    data: { getPost } = {},
-  } = useQuery(FETCH_POST_QUERY, {
+  const { data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
     variables: {
       postId,
     },
   });
-
-//    let postMarkup = <p>Loading Post ...</p>;
-//   if (data !== undefined) {postMarkup=...}" so by default it's loading post and if tt's not undefined postMarkyp displays the single post"
 
   let postMarkup;
 
@@ -84,26 +79,26 @@ function SinglePost(props) {
   return postMarkup;
 }
 
-const FETCH_POST_QUERY = gql`
-  query($postID: ID!) {
-    getPost(postId: $postId) {
-      id
-      body
-      createdAt
-      username
-      likeCount
-      likes {
-        username
-      }
-      commentCount
-      comments {
-        id
-        username
-        createdAt
-        body
-      }
-    }
-  }
-`;
+// const FETCH_POST_QUERY = gql`
+//   query($postID: ID!) {
+//     getPost(postId: $postId) {
+//       id
+//       body
+//       createdAt
+//       username
+//       likeCount
+//       likes {
+//         username
+//       }
+//       commentCount
+//       comments {
+//         id
+//         username
+//         createdAt
+//         body
+//       }
+//     }
+//   }
+// `;
 
 export default SinglePost;
