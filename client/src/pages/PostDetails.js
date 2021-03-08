@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { Button, Card, Grid, Icon, Image, Label } from "semantic-ui-react";
 import moment from "moment";
 
-import { FETCH_POST_QUERY } from '../util/graphql'
+import { FETCH_POST_QUERY } from "../util/graphql";
 import { AuthContext } from "../context/auth";
 import LikeButton from "../components/LikeButton";
 import DeleteButton from "../components/DeleteButton";
@@ -17,6 +17,10 @@ function SinglePost(props) {
       postId,
     },
   });
+
+  function deletePostCallback() {
+    props.history.push("/");
+  }
 
   let postMarkup;
 
@@ -67,7 +71,7 @@ function SinglePost(props) {
                   </Label>
                 </Button>
                 {user && user.username === username && (
-                  <DeleteButton postId={id} />
+                  <DeleteButton postId={id} callback={deletePostCallback} />
                 )}
               </Card.Content>
             </Card>
