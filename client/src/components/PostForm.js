@@ -10,31 +10,50 @@ export default function PostForm() {
     body: "",
   });
 
+//   const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
+//     variables: values,
+//     update(proxy, result) {
+//       const data = proxy.readQuery({
+//         query: FETCH_POSTS_QUERY,
+//       });
+
+//       let newData = [...data.getPosts];
+//       newData = [result.data.createPost, ...newData];
+//       proxy.writeQuery({
+//         query: FETCH_POSTS_QUERY,
+//         data: {
+//           ...data,
+//           getPosts: {
+//             newData,
+//           },
+//         },
+//       });
+//       values.body = '';
+//     },
+//     onError(error) {
+//       console.log(error);
+//     },
+//   });
+
+
   const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
     variables: values,
     update(proxy, result) {
       const data = proxy.readQuery({
         query: FETCH_POSTS_QUERY,
       });
-
-      let newData = [...data.getPosts];
-      newData = [result.data.createPost, ...newData];
       proxy.writeQuery({
         query: FETCH_POSTS_QUERY,
         data: {
-          ...data,
-          getPosts: {
-            newData,
-          },
+          getPosts: [result.data.createPost, ...data.getPosts],
         },
       });
-      values.body = '';
+      values.body = "";
     },
-    onError(error) {
-      console.log(error);
+    onError(err) {
+      return err;
     },
   });
-
   function createPostCallback() {
     createPost();
   }
