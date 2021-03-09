@@ -13,20 +13,45 @@ function DeleteButton({ postId, callback, commentId }) {
   const [deletePostOrMutation] = useMutation(mutation, {
     update(proxy) {
       setConfirmOpen(false);
-      if (!commentId) {
-        const data = proxy.readQuery({
-          query: FETCH_POSTS_QUERY,
-        });
-        data.getPosts = data.getPosts.filter((p) => p.id !== postId);
-        proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+      //gets posts from db and sets to var oldPosts
+      if(!commentId){
+          const oldPosts = proxy.readQuery({
+            query: FETCH_POSTS_QUERY,
+          });
+          //sets newData to array of objects - the deleted post
+          const newData = oldPosts.getPosts.filter((p) => p.id !== postId);
+          //Sets getPosts to the newPosts
+          proxy.writeQuery({
+            query: FETCH_POSTS_QUERY,
+            data: {
+              getPosts: newData,
+            },
+          });
       }
       if (callback) callback();
     },
     variables: {
       postId,
-      commentId,
+      commentId
     },
   });
+//   const [deletePostOrMutation] = useMutation(mutation, {
+//     update(proxy) {
+//       setConfirmOpen(false);
+//       if (!commentId) {
+//         const data = proxy.readQuery({
+//           query: FETCH_POSTS_QUERY,
+//         });
+//         data.getPosts = data.getPosts.filter((p) => p.id !== postId);
+//         proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+//       }
+//       if (callback) callback();
+//     },
+//     variables: {
+//       postId,
+//       commentId,
+//     },
+//   });
   return (
     <>
       <Button

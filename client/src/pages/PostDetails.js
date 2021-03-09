@@ -16,7 +16,6 @@ import LikeButton from "../components/LikeButton";
 import DeleteButton from "../components/DeleteButton";
 import { useMutation } from "@apollo/client";
 
-
 function SinglePost(props) {
   const postId = props.match.params.postId;
   const { user } = useContext(AuthContext);
@@ -24,9 +23,7 @@ function SinglePost(props) {
 
   const [comment, setComment] = useState("");
 
-  const {
-    data: { getPost } = {},
-  } = useQuery(FETCH_POST_QUERY, {
+  const { data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
     variables: {
       postId,
     },
@@ -34,6 +31,7 @@ function SinglePost(props) {
 
   const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
     update() {
+      console.log("HI");
       setComment("");
       commentInputRef.current.blur();
     },
@@ -82,18 +80,18 @@ function SinglePost(props) {
               <hr />
               <Card.Content extra>
                 <LikeButton user={user} post={{ id, likeCount, likes }} />
-                  <Button
-                    as='div'
-                    labelPosition='right'
-                    onClick={() => console.log("Comment on post")}
-                  >
-                    <Button basic color='blue'>
-                      <Icon name='comments' />
-                    </Button>
-                    <Label basic color='blue' pointing='left'>
-                      {commentCount}
-                    </Label>
+                <Button
+                  as='div'
+                  labelPosition='right'
+                  onClick={() => console.log("Comment on post")}
+                >
+                  <Button basic color='blue'>
+                    <Icon name='comments' />
                   </Button>
+                  <Label basic color='blue' pointing='left'>
+                    {commentCount}
+                  </Label>
+                </Button>
                 {user && user.username === username && (
                   <DeleteButton postId={id} callback={deletePostCallback} />
                 )}
@@ -184,4 +182,3 @@ const FETCH_POST_QUERY = gql`
 `;
 
 export default SinglePost;
-
