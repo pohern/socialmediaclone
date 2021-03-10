@@ -18,7 +18,9 @@ function Home() {
   );
  
   return (
-    <Grid columns={3}>
+      <>
+      {user && (
+         <Grid columns={3}>
       <Grid.Row className='page-title'>
         <h1>Recent Posts</h1>
         <hr />
@@ -41,7 +43,11 @@ function Home() {
           </Transition.Group>
         )}
       </Grid.Row>
-    </Grid>
+    </Grid> 
+      )}  {
+          <h2 style={{textAlign:'center'}}>Hello, please login to see posts!</h2>
+      }
+      </>
   );
 }
 
