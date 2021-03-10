@@ -42,3 +42,16 @@ module.exports.validateLoginInput = (username, password) => {
       valid: Object.keys(errors).length < 1,
     };
 }
+
+module.exports.validateCreatePost = (body) => {
+  const errors = {};
+
+  if (body.trim() === "") {
+    errors.post = "Post Body Must Not Be Empty";
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length < 1,
+  };
+};

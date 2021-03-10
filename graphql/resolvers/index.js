@@ -1,3 +1,4 @@
+const posts = require("./posts");
 const postsResolvers = require("./posts");
 const usersResolvers = require("./users");
 const commentsResolvers = require("./comments");

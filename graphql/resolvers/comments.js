@@ -1,16 +1,16 @@
-const { AuthenticationError, UserInputError } = require("apollo-server");
+const { UserInputError, AuthenticationError } = require("apollo-server");
 
-const checkAuth = require("../../util/check-auth");
 const Post = require("../../models/Post");
+const checkAuth = require("../../util/check-auth");
 
 module.exports = {
   Mutation: {
     createComment: async (_, { postId, body }, context) => {
       const { username } = checkAuth(context);
       if (body.trim() === "") {
-        throw new UserInputError("Empty comment", {
+        throw new UserInputError("Empty Comment", {
           errors: {
-            body: "Comment body must not empty",
+            body: "Comment Body Must Not Be Empty",
           },
         });
       }
@@ -23,11 +23,12 @@ module.exports = {
           username,
           createdAt: new Date().toISOString(),
         });
+
         await post.save();
         return post;
-      } else throw new UserInputError("Post not found");
+      } else throw new UserInputError("Post Not Found");
     },
-    async deleteComment(_, { postId, commentId }, context) {
+    deleteComment: async (_, { postId, commentId }, context) => {
       const { username } = checkAuth(context);
 
       const post = await Post.findById(postId);
@@ -40,10 +41,10 @@ module.exports = {
           await post.save();
           return post;
         } else {
-          throw new AuthenticationError("Action not allowed");
+          throw new AuthenticationError("Action Not Allowed");
         }
       } else {
-        throw new UserInputError("Post not found");
+        throw new UserInputError("Post Not Found");
       }
     },
   },
