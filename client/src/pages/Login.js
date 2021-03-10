@@ -16,8 +16,8 @@ function Login(props) {
   });
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update(_, {data: { login: userData }}) {
-        context.login(userData)
+    update(_, { data: { login: userData } }) {
+      context.login(userData);
       props.history.push("/");
     },
     onError(err) {
@@ -36,21 +36,20 @@ function Login(props) {
         <h1>Login</h1>
         <Form.Input
           label='Username'
-          placeholder='Username...'
+          placeholder='Username..'
           name='username'
           type='text'
-          error={errors.username ? true : false}
           value={values.username}
+          error={errors.username ? true : false}
           onChange={onChange}
         />
-
         <Form.Input
           label='Password'
-          placeholder='Password...'
+          placeholder='Password..'
           name='password'
           type='password'
-          error={errors.password ? true : false}
           value={values.password}
+          error={errors.password ? true : false}
           onChange={onChange}
         />
         <Button type='submit' primary>
@@ -81,4 +80,6 @@ const LOGIN_USER = gql`
     }
   }
 `;
+
 export default Login;
+
