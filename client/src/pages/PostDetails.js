@@ -13,7 +13,7 @@ import moment from "moment";
 import gql from "graphql-tag";
 import { AuthContext } from "../context/auth";
 import LikeButton from "../components/LikeButton";
-import DeleteButton from "../components/DeleteButton";
+// import DeleteButton from "../components/DeleteButton";
 import { useMutation } from "@apollo/client";
 
 function SinglePost(props) {
@@ -41,9 +41,9 @@ function SinglePost(props) {
     },
   });
 
-  function deletePostCallback() {
-    props.history.push("/");
-  }
+//   function deletePostCallback() {
+//     props.history.push("/");
+//   }
 
   let postMarkup;
   if (!getPost) {
@@ -92,9 +92,9 @@ function SinglePost(props) {
                     {commentCount}
                   </Label>
                 </Button>
-                {user && user.username === username && (
+                {/* {user && user.username === username && (
                   <DeleteButton postId={id} callback={deletePostCallback} />
-                )}
+                )} */}
               </Card.Content>
             </Card>
             {user && (
@@ -127,9 +127,9 @@ function SinglePost(props) {
             {comments.map((comment) => (
               <Card fluid key={comment.id}>
                 <Card.Content>
-                  {user && user.username === comment.username && (
+                  {/* {user && user.username === comment.username && (
                     <DeleteButton postId={id} commentId={comment.id} />
-                  )}
+                  )} */}
                   <Card.Header>{comment.username}</Card.Header>
                   <Card.Meta>{moment(comment.createdAt).fromNow()}</Card.Meta>
                   <Card.Description>{comment.body}</Card.Description>

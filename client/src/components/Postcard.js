@@ -4,7 +4,7 @@ import { Card, Icon, Label, Image, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth";
 import LikeButton from "./LikeButton";
-import DeleteButton from "./DeleteButton";
+// import DeleteButton from "./DeleteButton";
 
 function Postcard({
   post: { body, createdAt, id, username, likeCount, commentCount, likes },
@@ -37,7 +37,7 @@ function Postcard({
           </Label>
         </Button>
 
-        {user && user.username === username && <DeleteButton postId={id} />}
+        {/* {user && user.username === username && <DeleteButton postId={id} />} */}
       </Card.Content>
     </Card>
   );
