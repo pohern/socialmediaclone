@@ -105,7 +105,7 @@ function SinglePost(props) {
                     <div className='ui action input fluid'>
                       <input
                         type='text'
-                        placeholder='Comment..'
+                        placeholder='Comment…'
                         name='comment'
                         value={comment}
                         onChange={(event) => setComment(event.target.value)}
@@ -113,7 +113,7 @@ function SinglePost(props) {
                       />
                       <button
                         type='submit'
-                        className='ui button teal'
+                        className='ui button red'
                         disabled={comment.trim() === ""}
                         onClick={submitComment}
                       >
