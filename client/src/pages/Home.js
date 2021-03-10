@@ -19,6 +19,9 @@ function Home() {
  
   return (
       <>
+      {!user && (
+          <h3 style={{textAlign:'center', fontSize:'5rem'}}>Please Log In to see posts</h3>
+      )}
       {user && (
          <Grid columns={3}>
       <Grid.Row className='page-title'>
@@ -44,9 +47,7 @@ function Home() {
         )}
       </Grid.Row>
     </Grid> 
-      )}  {
-          <h2 style={{textAlign:'center'}}>Hello, please login to see posts!</h2>
-      }
+      )}
       </>
   );
 }
